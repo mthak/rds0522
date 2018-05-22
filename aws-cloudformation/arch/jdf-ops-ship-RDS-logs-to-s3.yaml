@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: Ship RDS logs to S3
+Resources:
+  jdfOpsShipRdsLogsToS3:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: jdf-ops-ship-RDS-logs-to-s3
+      Handler: rds_log_ship.lambda_handler
+      Runtime: python2.7
+      CodeUri: #S3CodeLocation#
+      Description: Ship RDS logs to S3
+      MemorySize: 750
+      Timeout: 300
+      Role:
+        Fn::Join:
+        - ''
+        - - 'arn:aws:iam::'
+          - !Ref "AWS::AccountId"
+          - ':role/ops/rds-log-export'
+      Events:
+        ShipRdsLogsEveryHour:
+          Type: Schedule
+          Properties:
+            Schedule: cron(5 * * * ? *)
+      Environment:
+        Variables:
+          S3_BUCKET: #S3Bucket#
+      Tags:
+        Name: "aws-jdf-ship-RDS-logs-to-s3"
+        component: "databasereporting"

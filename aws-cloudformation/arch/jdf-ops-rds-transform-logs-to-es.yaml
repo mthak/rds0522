@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: Transform RDS logs from S3 and send to ES
+Resources:
+  jdfOpsRdsTransformLogsToES:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: jdf-ops-rds-transform-logs-es
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: #S3CodeLocation#
+      Description: Transform RDS logs from S3 and send to ES
+      MemorySize: 128
+      Timeout: 300
+      Role:
+        Fn::Join:
+        - ''
+        - - 'arn:aws:iam::'
+          - !Ref "AWS::AccountId"
+          - ':role/ops/rds-log-export'
+      Environment:
+        Variables:
+          ES_DOMAIN: #ES_DOMAIN#
+      Tags:
+        Name: "jdf-ops-transform-RDS-logs-to-es"
+        component: "databasereporting"
+      VpcConfig:
+        SecurityGroupIds:
+          - "sg-ad2272da"
+        SubnetIds:
+          - Fn::ImportValue:
+              "vpn-#environment#-PrivateSubnet0"
+          - Fn::ImportValue:
+              "vpn-#environment#-PrivateSubnet1"
+          - Fn::ImportValue:
+              "vpn-#environment#-PrivateSubnet2"
+
+  jdfOpsTransformRdsLogsToEsPolicy:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      FunctionName: !GetAtt
+        - "jdfOpsRdsTransformLogsToES"
+        - Arn
+      Action: 'lambda:InvokeFunction'
+      Principal: s3.amazonaws.com
+      SourceAccount: !Ref 'AWS::AccountId'
+      SourceArn: arn:aws:s3:::#S3Bucket#

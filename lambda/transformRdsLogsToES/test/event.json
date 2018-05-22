@@ -1,0 +1,39 @@
+{
+  "Records": [
+    {
+      "eventVersion": "2.0",
+      "eventSource": "aws:s3",
+      "awsRegion": "us-east-1",
+      "eventTime": "2017-11-09T20:05:46.848Z",
+      "eventName": "ObjectCreated:Put",
+      "userIdentity": {
+        "principalId": "AWS:AROAIHLT6NZV4C7RNBBWA:jdf-ops-ship-RDS-logs-to-s3-jdfOpsShipRdsLogsToS3-WCW8W0QOAC5U"
+      },
+      "requestParameters": {
+        "sourceIPAddress": "52.23.255.79"
+      },
+      "responseElements": {
+        "x-amz-request-id": "DDA2C991218B6351",
+        "x-amz-id-2": "Mf5NGqb324RLI4uCPe8rpxAvwPjnr/7NyXZ61bo/b8ZWxn2srwhCwjBl8wWj4ogQkJEdgS++mgo="
+      },
+      "s3": {
+        "s3SchemaVersion": "1.0",
+        "configurationId": "TransformRdsLogsForNonShared",
+        "bucket": {
+          "name": "aws-jdf-sharedservices-logs",
+          "ownerIdentity": {
+            "principalId": "AS1MHSPOALXUO"
+          },
+          "arn": "arn:aws:s3:::aws-jdf-sharedservices-logs"
+        },
+        "object": {
+          "key": "RDS/postgres/jdf-db-postgres-sonarqube-db/2017-11-09/error-postgresql.log.2017-11-09-20",
+          "size": 5644464,
+          "eTag": "eef50f174802a3e714703e45020dd37f",
+          "versionId": "kRBmdQMKrmsTM2n7KsnMK_lgGH9k2_2e",
+          "sequencer": "005A04B51A82EA6A6D"
+        }
+      }
+    }
+  ]
+}

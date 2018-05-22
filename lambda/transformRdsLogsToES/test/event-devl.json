@@ -1,0 +1,39 @@
+{
+  "Records": [
+    {
+      "eventVersion": "2.0",
+      "eventSource": "aws:s3",
+      "awsRegion": "us-east-1",
+      "eventTime": "2018-02-18T16:05:48.985Z",
+      "eventName": "ObjectCreated:Put",
+      "userIdentity": {
+        "principalId": "AWS:AROAIA7KMCI5BVRR6BNGI:jdf-ops-ship-RDS-logs-to-s3"
+      },
+      "requestParameters": {
+        "sourceIPAddress": "54.165.164.180"
+      },
+      "responseElements": {
+        "x-amz-request-id": "697CBB4D1A997ED6",
+        "x-amz-id-2": "LXoOkdHFV6aP9HZowUjcwM4q69ErKdQJ990Yi/n36VqDAB9T8gm/Lceh/caH1tt5j6TrS9C9dM4="
+      },
+      "s3": {
+        "s3SchemaVersion": "1.0",
+        "configurationId": "TransformRdsLogsForNonProd",
+        "bucket": {
+          "name": "aws-jdf-apps-devl-logs",
+          "ownerIdentity": {
+            "principalId": "A1UZNZERBPHMCU"
+          },
+          "arn": "arn:aws:s3:::aws-jdf-apps-devl-logs"
+        },
+        "object": {
+          "key": "RDS/postgres/jdf-corppricing-poc-installment-model-devl/2018-02-18/error-postgresql.log.2018-02-18-16",
+          "size": 672,
+          "eTag": "5d8075de16b5a72be2c2e98290df65ee",
+          "versionId": "HVJzXcYZWrfUaw5lADnHThzeD1i8hVal",
+          "sequencer": "005A89A45CEFAE622B"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+component = "databasereporting"
+
+environment = "ES_DOMAIN"
+
+esdomain = "https://vpc-logcentral-shared-6-0-k643z6sk2eualfpp4ulzkdeqqq.us-east-1.es.amazonaws.com"
+
+name = "jdf-ops-transform-rds-logs-to-es_tf"
+
+rdslogs3bucket: "aws-jdf-sharedservices-logs"
+
+subnet_ids = ["subnet-0e5b7e23", "subnet-c8dcd681", "subnet-4675251d"]
+
+security_group_ids = "sg-ad2272da"
+
+vpc = "vpc-d60862b0"
