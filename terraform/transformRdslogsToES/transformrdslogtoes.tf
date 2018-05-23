@@ -90,17 +90,17 @@ resource "aws_lambda_function" "rdslogs3bucket" {
 resource "aws_lambda_permission" "allow_rdslogs3bucket_policy" {
   statement_id = "AllowExecutionToS3Logs"
   action = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.rdslogs3bucket.function_name}"
+  function_name = "${aws_lambda_function.s3-to-es.arn}"
   principal = "s3.amazonaws.com"
-  source_arn = "arn:aws:s3:::${var.rdslogs3bucket}/RDS"
+  source_arn = "${aws_s3_bucket.rdslogs3bucket.arn}"
 }
 
 
 resource "aws_s3_bucket_notification" "rdsbucket_notification" {
-  bucket = "${aws_s3_bucket.rdslogs3bucket.bucket}"
+  bucket = "${aws_s3_bucket.rdslogs3bucket.id}"
 
   lambda_function {
-    lambda_function_arn = "${aws_lambda_function.s3-to-es.id}"
+    lambda_function_arn = "${aws_lambda_function.s3-to-es.arn}"
     events = [
       "s3:ObjectCreated:*"]
     filter_prefix = "RDS/"
