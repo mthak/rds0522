@@ -109,16 +109,15 @@ resource "aws_s3_bucket_notification" "rdsbucket_notification" {
 }
 */
 
-data "aws_s3_bucket" "rdslogs3bucket2" {
+data "aws_s3_bucket" "cloudtrailbucket" {
   bucket = "${var.rdslogs3bucket}"
 }
 resource "aws_cloudtrail" "SendToCloudTrailLambdaDevl" {
   name = "SendToCloudTrailLambdaProd"
-  s3_bucket_name = "${aws_s3_bucket.rdslogs3bucket.id}"
+  s3_bucket_name = "${aws_s3_bucket.cloudtrailbucket.id}"
   s3_key_prefix = "prefix"
   cloud_watch_logs_role_arn = "arn:aws:lambda:us-east-1:515947518870:function:continuous-audit-cloudtrail-processor"
-  //value = "AWSCloudTrail/"
-
+  
   event_selector {
     read_write_type = "All"
     include_management_events = true
@@ -126,7 +125,8 @@ resource "aws_cloudtrail" "SendToCloudTrailLambdaDevl" {
     data_resource {
       type = "AWS::S3::Object"
       values = [
-        "${data.aws_s3_bucket.rdslogs3bucket2.arn}/AWSCloudTrail/"]
+        "${data.aws_s3_bucket.rdslogs3bucket2.arn}/"]
+      s3_key_prefix  = "AWSCloudTrail"
     }
   }
 }
