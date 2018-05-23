@@ -90,17 +90,17 @@ resource "aws_lambda_function" "rdslogs3bucket" {
 resource "aws_lambda_permission" "allow_rdslogs3bucket_policy" {
   statement_id = "AllowExecutionToS3Logs"
   action = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.s3-to-es.arn}"
+  function_name = "${aws_lambda_function.rdslogs3bucket.function_name}"
   principal = "s3.amazonaws.com"
-  source_arn = "${aws_s3_bucket.rdslogs3bucket.arn}"
+  source_arn = "arn:aws:s3:::${var.rdslogs3bucket}/RDS"
 }
 
 
 resource "aws_s3_bucket_notification" "rdsbucket_notification" {
-  bucket = "${aws_s3_bucket.rdslogs3bucket.id}"
+  bucket = "${aws_s3_bucket.rdslogs3bucket.bucket}"
 
   lambda_function {
-    lambda_function_arn = "${aws_lambda_function.s3-to-es.arn}"
+    lambda_function_arn = "${aws_lambda_function.s3-to-es.id}"
     events = [
       "s3:ObjectCreated:*"]
     filter_prefix = "RDS/"
@@ -109,7 +109,7 @@ resource "aws_s3_bucket_notification" "rdsbucket_notification" {
 }
 */
 
-data "aws_s3_bucket" "cloudtrailbucket" {
+resource "aws_s3_bucket" "cloudtrailbucket" {
   bucket = "${var.rdslogs3bucket}"
 }
 resource "aws_cloudtrail" "SendToCloudTrailLambdaDevl" {
@@ -125,7 +125,7 @@ resource "aws_cloudtrail" "SendToCloudTrailLambdaDevl" {
     data_resource {
       type = "AWS::S3::Object"
       values = [
-        "${data.aws_s3_bucket.rdslogs3bucket2.arn}/"]
+        "${aws_s3_bucket.rdslogs3bucket2.arn}/"]
       s3_key_prefix  = "AWSCloudTrail"
     }
   }
